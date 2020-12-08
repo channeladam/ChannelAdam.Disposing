@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="DisposableWithDestructor.cs">
+// <copyright file="AsyncDisposableWithDestructor.cs">
 //     Copyright (c) 2014-2020 Adam Craven. All rights reserved.
 // </copyright>
 //
@@ -20,33 +20,42 @@ namespace ChannelAdam.Disposing.Abstractions
     using System;
 
     /// <summary>
-    /// Abstract class that correctly implements a Disposable pattern <see cref="Disposable"/> with a Destructor.
+    /// Abstract class that implements an Async Disposable pattern <see cref="AsyncDisposable"/> with a Destructor.
     /// </summary>
     /// <remarks>
     /// <para>
-    /// Instructions: Inherit from this class and override the methods:
-    ///   <c>DisposeManagedResources()</c>, <c>DisposeUnmanagedResources()</c>, and <c>SetResourcesToNull()</c>.
+    /// NOTE: <see cref="IAsyncDisposable"/> is NOT a replacement for <see cref="IDisposable"/> - rather it complements it.
+    /// NOTE: The synchronous <c>Dispose()</c> method is called from this destructor as there is no async version of a destructor.
     /// </para>
     /// <para>
-    /// Inspiration for the Dispose Pattern - see https://docs.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-dispose
-    /// See https://docs.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/b1yfkh5e(v=vs.100)
+    /// Instructions:
+    /// - It is important to implement BOTH the synchronous and asynchronous approaches to disposing the same resources.
+    /// - Inherit from this class and override the methods:
+    ///     <c>DisposeManagedResources()</c>, <c>DisposeManagedResourcesAsync()</c>, <c>DisposeUnmanagedResources()</c>,
+    ///     <c>DisposeUnmanagedResourcesAsync()</c> and <c>SetResourcesToNull()</c>
+    /// - Use <c>SafeDispose()</c> and <c>SafeDisposeAsync()</c> to dispose of resources from within the overridden methods.
+    /// </para>
+    /// <para>
+    /// Inspiration for an Async Dispose Pattern - see https://docs.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-disposeasync
+    /// Inspiration for a Dispose Pattern - see https://docs.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-dispose
     /// </para>
     /// </remarks>
-    public abstract class DisposableWithDestructor : Disposable
+    public abstract class AsyncDisposableWithDestructor : AsyncDisposable
     {
         #region Destructor
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="DisposableWithDestructor"/> class.
+        /// Finalizes an instance of the <see cref="AsyncDisposableWithDestructor"/> class.
         /// </summary>
         /// <remarks>
         /// This destructor will be called by the GC only if the Dispose method does not get called.
         /// Do not provide destructors in types derived from this class - derived types should instead override the Dispose method.
         /// </remarks>
-        ~DisposableWithDestructor()
+        ~AsyncDisposableWithDestructor()
         {
             try
             {
+                // We have to use the synchronous version of Dispose() because there is no async version of a Destructor.
                 // Pass false to indicate that this is a finaliser, calling it non-deterministically.
                 // The Garbage Collector calls finalisers that destroys managed objects non-deterministically.
                 this.Dispose(disposing:false);

@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="DisposingEventArgs.cs">
-//     Copyright (c) 2014-2018 Adam Craven. All rights reserved.
+//     Copyright (c) 2014-2020 Adam Craven. All rights reserved.
 // </copyright>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,6 +39,6 @@ namespace ChannelAdam.Disposing.Abstractions
         /// <value>
         /// <c>true</c> if this instance is disposing; otherwise, <c>false</c>.
         /// </value>
-        public bool IsDisposing { get; private set; }
+        public bool IsDisposing { get; }
     }
 }

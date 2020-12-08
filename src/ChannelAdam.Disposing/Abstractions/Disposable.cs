@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="Disposable.cs">
-//     Copyright (c) 2014-2018 Adam Craven. All rights reserved.
+//     Copyright (c) 2014-2020 Adam Craven. All rights reserved.
 // </copyright>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,54 +18,41 @@
 namespace ChannelAdam.Disposing.Abstractions
 {
     using System;
+    using ChannelAdam.Disposing.Abstractions.Internal;
 
     /// <summary>
-    /// Abstract class for implementing the Dispose pattern.
+    /// Abstract class for correctly implementing a Disposable pattern.
     /// </summary>
     /// <remarks>
-    /// Instructions: Inherit from this class and override the DisposeManagedResources() and DisposeUnmanagedResources() methods.
-    /// The Dispose Pattern - <see cref="http://msdn.microsoft.com/en-us/library/b1yfkh5e.aspx."/>
-    /// <see cref="http://msdn.microsoft.com/en-us/library/vstudio/b1yfkh5e(v=vs.100).aspx"/>
+    /// <para>
+    /// Provides a default, do nothing, implementation of the abstract methods
+    ///   <c>DisposeManagedResources()</c>, <c>DisposeUnmanagedResources()</c>, and <c>SetResourcesToNull()</c>
+    ///   so that the implementor does not need to implement every one of them - which is a reasonable assumption for this Dispose Pattern.
+    /// </para>
+    /// <para>
+    /// Instructions:
+    /// - Inherit from this class and override the methods:
+    ///     <c>DisposeManagedResources()</c>, <c>DisposeUnmanagedResources()</c>, and <c>SetResourcesToNull()</c>.
+    /// - Use <c>SafeDispose()</c> to dispose of resources from within the overridden methods.
+    /// </para>
+    /// <para>
+    /// Inspiration for a Dispose Pattern - see https://docs.microsoft.com/en-us/dotnet/standard/garbage-collection/implementing-dispose
+    /// See https://docs.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/b1yfkh5e(v=vs.100)
+    /// </para>
     /// </remarks>
-    public abstract class Disposable : IDisposable
+    public abstract class Disposable : CoreDisposable, IDisposable
     {
-        private volatile bool isDisposed;   // volatile because the Garbage Collector calls finalizers in a different thread
-
-        #region Events
-
         /// <summary>
-        /// Occurs when the object is about to be disposed.
+        /// Performs the deterministic, application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
-        public event EventHandler<DisposingEventArgs> Disposing;
-
-        /// <summary>
-        /// Occurs when the object has been disposed.
-        /// </summary>
-        public event EventHandler Disposed;
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets a value indicating whether this instance is disposed.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance is disposed; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsDisposed
-        {
-            get { return this.isDisposed; }
-        }
-
-        #endregion Properties
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
+        /// <remarks>
+        /// Implementation of <c>IDisposable.Dispose</c> method.
+        /// </remarks>
         public void Dispose()
         {
-            this.Dispose(true);
+            // Call the Dispose method and indicate we are calling it deterministically from our application code.
+            // (Garbage collection calls finalisers that destroys managed objects non-deterministically.)
+            base.Dispose(disposing:true);
 
             // This object is being cleaned up by the Dispose method.
             // Calling GC.SupressFinalize() takes this object off the finalization queue and prevents
@@ -76,9 +63,13 @@ namespace ChannelAdam.Disposing.Abstractions
         #region Protected Virtual Methods
 
         /// <summary>
-        /// Release managed resources here.
+        /// Dispose of managed resources here.
         /// </summary>
-        protected virtual void DisposeManagedResources()
+        /// <remarks>
+        /// This releases them faster than if they were reclaimed non-deterministically from a finaliser.
+        /// Call <c>SafeDispose()</c> on every managed resource that needs to be disposed.
+        /// </remarks>
+        protected override void DisposeManagedResources()
         {
             // override this method
         }
@@ -86,49 +77,25 @@ namespace ChannelAdam.Disposing.Abstractions
         /// <summary>
         /// Release unmanaged resources here.
         /// </summary>
-        protected virtual void DisposeUnmanagedResources()
+        /// <remarks>
+        /// The implementer is responsible for ensuring that they do not interact with managed objects that may have been reclaimed by the Garbage Collector.
+        /// <remarks>
+        protected override void DisposeUnmanagedResources()
         {
             // override this method
         }
 
         /// <summary>
-        /// Called when the object is about to be disposed.
+        /// Set the disposed resources to null to make them unreachable, and to prevent double disposal attempts.
         /// </summary>
-        /// <param name="isDisposing">If set to <c>true</c> then the object is being disposed from a call to Dispose(); <c>false</c> if it is from a finalizer / destructor.</param>
-        protected virtual void OnDisposing(bool isDisposing)
+        /// <remarks>
+        /// This executes after all the Dispose*anagedResources*() methods.
+        /// </remarks>
+        protected override void SetResourcesToNull()
         {
-            this.Disposing?.Invoke(this, new DisposingEventArgs(isDisposing));
-        }
-
-        /// <summary>
-        /// Called when the object has been disposed.
-        /// </summary>
-        protected virtual void OnDisposed()
-        {
-            this.Disposed?.Invoke(this, EventArgs.Empty);
+            // override this method
         }
 
         #endregion Protected Virtual Methods
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (this.isDisposed)
-            {
-                return;
-            }
-
-            this.OnDisposing(disposing);
-
-            this.DisposeUnmanagedResources();
-
-            if (disposing)
-            {
-                this.DisposeManagedResources();
-            }
-
-            this.isDisposed = true;
-
-            this.OnDisposed();
-        }
     }
 }

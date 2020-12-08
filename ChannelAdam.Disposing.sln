@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChannelAdam.Disposing", "src\ChannelAdam.Disposing\ChannelAdam.Disposing.csproj", "{EA8FDBE8-3B70-4051-BBD8-DDD50502FD61}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{008388E3-6134-44CF-9CA7-EEABFAE28906}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BehaviourTests", "src\BehaviourTests\BehaviourTests.csproj", "{5BEC8A68-1C63-40DA-82A6-052173D4429D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,11 +19,18 @@ Global
 		{EA8FDBE8-3B70-4051-BBD8-DDD50502FD61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA8FDBE8-3B70-4051-BBD8-DDD50502FD61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA8FDBE8-3B70-4051-BBD8-DDD50502FD61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BEC8A68-1C63-40DA-82A6-052173D4429D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BEC8A68-1C63-40DA-82A6-052173D4429D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BEC8A68-1C63-40DA-82A6-052173D4429D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BEC8A68-1C63-40DA-82A6-052173D4429D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F7D7BE0B-8205-47A7-8B65-F53CA4E4C269}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5BEC8A68-1C63-40DA-82A6-052173D4429D} = {008388E3-6134-44CF-9CA7-EEABFAE28906}
 	EndGlobalSection
 EndGlobal

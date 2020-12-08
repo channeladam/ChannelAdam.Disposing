@@ -1,18 +1,29 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
+  
   <PropertyGroup>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFrameworks>net5.0;netstandard2.1</TargetFrameworks>
+    <Version>0.0.0</Version>
+    <Authors>Adam Craven</Authors>
+    <Company>Adam Craven</Company>
+    <Product>ChannelAdam.Disposing</Product>
     <Description>A .NET library that provides an easy to use, correct implementation of the Dispose/Finalize Pattern.</Description>
+    <Copyright>Copyright 2014-2020 Adam Craven</Copyright>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/channeladam/ChannelAdam.Disposing</PackageProjectUrl>
     <RepositoryUrl>https://github.com/channeladam/ChannelAdam.Disposing</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>ChannelAdam,Dispose,Finalize</PackageTags>
-    <PackageReleaseNotes>2.0.0 - Refactored out of ChannelAdam.Core, target .NET Standard 1.3, no strong name signing</PackageReleaseNotes>
     <PackageIconUrl>https://devzone.channeladam.com/img/channeladam/channeladam-logo.png</PackageIconUrl>
-    <PackageLicenseUrl>http://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
-    <Copyright>Copyright 2014-2018 Adam Craven</Copyright>
-    <Version>0.0.0</Version>
-    <Authors>Adam Craven</Authors>
+    <PackageTags>ChannelAdam,Dispose,Finalize,IDisposable,IAsyncDisposable</PackageTags>
+    <PackageReleaseNotes>
+3.0.0 - Multitarget .NET Standard 2.1 and .NET 5.0, enabled nullable reference types, added support for IAsyncDisposable
+2.0.0 - Refactored out of ChannelAdam.Core, target .NET Standard 1.3, no strong name signing
+    </PackageReleaseNotes>
+    <IsPackable>true</IsPackable>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <IncludeSource>true</IncludeSource>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
 </Project>
