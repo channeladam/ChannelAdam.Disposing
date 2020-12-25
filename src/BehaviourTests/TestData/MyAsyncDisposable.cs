@@ -23,7 +23,7 @@ namespace BehaviourTests
             this.callPosition = 1;
         }
 
-        public static new async Task SafeDisposeAsync(object obj)
+        public static new async Task SafeDisposeAsync(object? obj)
         {
             await AsyncDisposable.SafeDisposeAsync(obj).ConfigureAwait(false);
         }

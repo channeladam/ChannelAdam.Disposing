@@ -113,7 +113,7 @@ namespace ChannelAdam.Disposing.Abstractions.Internal
         /// Calls Dispose() on the given object if it is not null and implements IDisposable.
         /// </remarks>
         /// <param name="objectToDispose">The object to dispose.</param>
-        protected static void SafeDispose(object objectToDispose)
+        protected static void SafeDispose(object? objectToDispose)
         {
             if (objectToDispose is null) return;
 

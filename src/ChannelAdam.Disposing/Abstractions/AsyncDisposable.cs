@@ -115,7 +115,7 @@ namespace ChannelAdam.Disposing.Abstractions
         /// Calls either <c>DisposeAsync()</c> or <c>Dispose()</c> on the given object depending on the interface implemented, if it is not null.
         /// </remarks>
         /// <param name="objectToDispose">The object to dispose.</param>
-        protected static async Task SafeDisposeAsync(object objectToDispose)
+        protected static async Task SafeDisposeAsync(object? objectToDispose)
         {
             if (objectToDispose is null) return;
 

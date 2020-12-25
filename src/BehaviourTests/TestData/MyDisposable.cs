@@ -20,7 +20,7 @@ namespace BehaviourTests
             this.callPosition = 1;
         }
 
-        public static new void SafeDispose(object obj)
+        public static new void SafeDispose(object? obj)
         {
             Disposable.SafeDispose(obj);
         }
