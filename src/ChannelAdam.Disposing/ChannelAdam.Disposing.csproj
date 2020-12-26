@@ -15,6 +15,7 @@
     <PackageIconUrl>https://devzone.channeladam.com/img/channeladam/channeladam-logo.png</PackageIconUrl>
     <PackageTags>ChannelAdam,Dispose,Finalize,IDisposable,IAsyncDisposable</PackageTags>
     <PackageReleaseNotes>
+3.0.2 - Added missing source link
 3.0.1 - Fixed nullable reference types in SafeDispose method parameters
 3.0.0 - Multitarget .NET Standard 2.1 and .NET 5.0, enabled nullable reference types, added support for IAsyncDisposable
 2.0.0 - Refactored out of ChannelAdam.Core, target .NET Standard 1.3, no strong name signing
@@ -26,5 +27,12 @@
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
 
 </Project>
