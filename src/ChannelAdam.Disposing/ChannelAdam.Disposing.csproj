@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
   
   <PropertyGroup>
-    <TargetFrameworks>net5.0;netstandard2.1</TargetFrameworks>
+    <TargetFrameworks>net5.0;netstandard2.1;netstandard2.0;netstandard1.3</TargetFrameworks>
     <Version>0.0.0</Version>
     <Authors>Adam Craven</Authors>
     <Company>Adam Craven</Company>
     <Product>ChannelAdam.Disposing</Product>
     <Description>A .NET library that provides an easy to use, correct implementation of the Dispose/Finalize Pattern.</Description>
-    <Copyright>Copyright 2014-2020 Adam Craven</Copyright>
+    <Copyright>Copyright 2014-2021 Adam Craven</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/channeladam/ChannelAdam.Disposing</PackageProjectUrl>
     <RepositoryUrl>https://github.com/channeladam/ChannelAdam.Disposing</RepositoryUrl>
@@ -15,6 +15,7 @@
     <PackageIconUrl>https://devzone.channeladam.com/img/channeladam/channeladam-logo.png</PackageIconUrl>
     <PackageTags>ChannelAdam,Dispose,Finalize,IDisposable,IAsyncDisposable</PackageTags>
     <PackageReleaseNotes>
+3.0.3 - Multitarget .NET Standard 1.3, 2.0, 2.1 and .NET 5.0
 3.0.2 - Added missing source link
 3.0.1 - Fixed nullable reference types in SafeDispose method parameters
 3.0.0 - Multitarget .NET Standard 2.1 and .NET 5.0, enabled nullable reference types, added support for IAsyncDisposable
@@ -26,6 +27,15 @@
     <IncludeSource>true</IncludeSource>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
+    <Nullable>enable</Nullable>
+    <WarningsAsErrors>CS8600;CS8602;CS8603</WarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" $(Nullable) != 'enable' ">
+    <NoWarn>$(NoWarn);CS8632</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
